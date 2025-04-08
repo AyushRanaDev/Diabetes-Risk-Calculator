@@ -1,10 +1,16 @@
-# Diabetes Risk Calculator 🩺
+# 🧠 Diabetes Risk Calculator - Backend (Flask API)
 
-AI-powered tool to predict diabetes risk using clinical health data.
+A Flask-powered REST API that predicts the likelihood of diabetes using a machine learning model trained on clinical data.
 
-## 🛠️ Tech Stack  
-- Python (ML model training)  
-- React (frontend dashboard - upcoming)  
-- Node.js + Express (API backend - upcoming)  
+## 🛠️ Tech Stack
 
-## 📂 Planned Structure  
+- Python (Flask, Pandas, scikit-learn)
+- Machine Learning (Logistic Regression)
+- REST API with JSON
+
+## 🚀 How to Run
+
+```bash
+cd diabetes-api
+pip install -r requirements.txt
+python app.py
