@@ -1,46 +1,229 @@
-.app {
-  max-width: 500px;
-  margin: 40px auto;
-  padding: 20px;
-  background: #f2f2f2;
-  border-radius: 8px;
-  font-family: Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-h1 {
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f4f6f8;
+  color: #333;
+  transition: background 0.3s, color 0.3s;
+}
+
+.App.dark {
+  background: #121212;
+  color: #f4f4f4;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(45deg, #1976d2, #42a5f5);
+  color: white;
+  padding: 1rem 2rem;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navbar h1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero {
   text-align: center;
-  margin-bottom: 20px;
+  padding: 80px 20px;
+  background: linear-gradient(120deg, #e3f2fd, #ffffff);
+}
+
+.App.dark .hero {
+  background: #1f1f1f;
+}
+
+.scroll-btn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.scroll-btn:hover {
+  background-color: #1565c0;
+}
+
+.form-block {
+  max-width: 600px;
+  margin: auto;
+  padding: 40px 20px;
 }
 
 form {
   display: flex;
   flex-direction: column;
-}
-
-label {
-  margin: 10px 0 4px;
-  font-weight: bold;
+  gap: 15px;
+  margin-top: 20px;
 }
 
 input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 12px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 6px;
 }
 
-button {
-  margin-top: 20px;
-  padding: 10px;
-  background-color: teal;
+button[type="submit"] {
+  background-color: #43a047;
   color: white;
+  padding: 12px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
+  font-weight: 600;
 }
 
-.result {
-  margin-top: 20px;
-  font-size: 18px;
-  color: darkred;
+button[type="submit"]:hover {
+  background-color: #388e3c;
+}
+
+.popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 30px;
+  border: 2px solid #1976d2;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  z-index: 999;
   text-align: center;
+}
+
+.App.dark .popup {
+  background: #1e1e1e;
+  color: #fff;
+  border-color: #64b5f6;
+}
+
+.popup a {
+  display: inline-block;
+  margin-top: 15px;
+  text-decoration: none;
+  background: #e53935;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.popup button {
+  margin-top: 15px;
+  background: transparent;
+  border: 2px solid #1976d2;
+  padding: 10px 16px;
+  border-radius: 6px;
+  color: #1976d2;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.popup button:hover {
+  background: #1976d2;
+  color: white;
+}
+
+.testimonial-slide {
+  text-align: center;
+  padding: 50px 20px;
+  background: #fafafa;
+  font-style: italic;
+  font-size: 1.2rem;
+}
+
+.App.dark .testimonial-slide {
+  background: #2a2a2a;
+}
+
+.info-section {
+  padding: 60px 20px;
+  background: #ffffff;
+  line-height: 1.6;
+}
+
+.App.dark .info-section {
+  background: #181818;
+}
+
+.info-section h2, .info-section h3 {
+  margin-top: 20px;
+  color: #1976d2;
+}
+
+.info-section ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.info-section li {
+  margin-bottom: 8px;
+}
+
+footer {
+  text-align: center;
+  padding: 30px 10px;
+  background: #1976d2;
+  color: white;
+  margin-top: 50px;
+}
+
+/* Fade-in animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.high-risk-msg {
+  font-size: 1.05rem;
+  margin: 12px 0;
+  color: #e53935;
+  font-weight: bold;
+}
+
+.consult-btn {
+  display: inline-block;
+  margin-top: 15px;
+  background: #e53935;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.consult-btn:hover {
+  background: #c62828;
 }
