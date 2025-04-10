@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import Switch from 'react-switch';
 import { FaMoon, FaSun, FaHospitalUser, FaSearchLocation } from 'react-icons/fa';
+import ClipLoader from "react-spinners/ClipLoader";
+
 
 const testimonials = [
   { name: 'Ananya Sharma', quote: '“This tool changed the way I think about my health!”' },
@@ -84,6 +86,7 @@ function App() {
   const [showPopup, setShowPopup] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [loading, setLoading] = useState(false);
   const formRef = useRef(null);
 
   useEffect(() => {
@@ -115,14 +118,41 @@ function App() {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const response = await fetch('http://127.0.0.1:5000/predict', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    });
-    const data = await response.json();
-    setResult(data.result);
-    setShowPopup(true);
+
+    // Input validation
+    const { glucose, age, bmi, insulin } = formData;
+    if (glucose < 70 || glucose > 300) {
+      alert("Please enter a valid glucose level between 70-300.");
+      return;
+    }
+    if (age < 1 || age > 120) {
+      alert("Please enter a valid age between 1-120.");
+      return;
+    }
+    if (bmi < 10 || bmi > 60) {
+      alert("Please enter a valid BMI between 10-60.");
+      return;
+    }
+    if (insulin < 0 || insulin > 900) {
+      alert("Please enter a valid insulin level between 0-900.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch(process.env.REACT_APP_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      const data = await response.json();
+      setResult(data.result);
+      setShowPopup(true);
+    } catch (error) {
+      alert("Error connecting to the server. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const scrollToForm = () => {
@@ -150,19 +180,23 @@ function App() {
       <section ref={formRef} className="fade-in form-block">
         <h2>🧠 Start Your Diabetes Risk Check</h2>
         <p>Slide down and fill the form 📝</p>
-        <form onSubmit={handleSubmit}>
-          {Object.keys(formData).map(key => (
-            <input
-              key={key}
-              name={key}
-              value={formData[key]}
-              placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
-              onChange={handleChange}
-              required
-            />
-          ))}
-          <button type="submit">Check Risk</button>
-        </form>
+        {loading ? (
+          <ClipLoader color="#36d7b7" />
+        ) : (
+          <form onSubmit={handleSubmit}>
+            {Object.keys(formData).map(key => (
+              <input
+                key={key}
+                name={key}
+                value={formData[key]}
+                placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+                onChange={handleChange}
+                required
+              />
+            ))}
+            <button type="submit">Check Risk</button>
+          </form>
+        )}
       </section>
 
       {showPopup && (
@@ -173,14 +207,15 @@ function App() {
               <p className="high-risk-msg">
                 ⚠️ You are at high risk for diabetes. Please consult a specialist immediately.
               </p>
-              <a
-                href="https://www.google.com/maps/search/diabetes+prescription+doctor+near+me"
-                target="_blank"
-                rel="noreferrer"
-                className="consult-btn"
-              >
-                🩺 Consult a Nearby Diabetes Specialist
-              </a>
+              <iframe
+                title="Nearby Diabetes Doctors"
+                src="https://www.google.com/maps/embed/v1/search?q=diabetes+doctor&key=YOUR_API_KEY"
+                width="100%"
+                height="300"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+              />
             </>
           ) : result.toLowerCase().includes('low risk') ? (
             <p style={{ color: 'green', fontWeight: '500' }}>
@@ -191,6 +226,7 @@ function App() {
               ⚠️ You may be at medium risk. Maintain a healthy lifestyle and monitor regularly.
             </p>
           )}
+          <button onClick={() => window.print()}>📄 Download Report</button>
           <button onClick={() => setShowPopup(false)}>Close</button>
         </div>
       )}
