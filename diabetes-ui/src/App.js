@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import Switch from 'react-switch';
-import { FaMoon, FaSun, FaHospitalUser, FaSearchLocation } from 'react-icons/fa';
+import { FaMoon, FaSun, FaHospitalUser } from 'react-icons/fa';
 import ClipLoader from "react-spinners/ClipLoader";
 
 
