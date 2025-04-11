@@ -149,6 +149,7 @@ function App() {
       setResult(data.result);
       setShowPopup(true);
     } catch (error) {
+      console.error("API Error:", error);
       alert("Error connecting to the server. Please try again later.");
     } finally {
       setLoading(false);
