@@ -208,15 +208,12 @@ function App() {
               <p className="high-risk-msg">
                 ⚠️ You are at high risk for diabetes. Please consult a specialist immediately.
               </p>
-              <iframe
-                title="Nearby Diabetes Doctors"
-                src="https://www.google.com/maps/embed/v1/search?q=diabetes+doctor&key=YOUR_API_KEY"
-                width="100%"
-                height="300"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-              />
+              <button
+                className="consult-btn"
+                onClick={() => window.open('https://www.google.com/search?q=diabetes+doctor+near+me', '_blank')}
+              >
+                Search Nearby Doctors
+              </button>
             </>
           ) : result.toLowerCase().includes('low risk') ? (
             <p style={{ color: 'green', fontWeight: '500' }}>
