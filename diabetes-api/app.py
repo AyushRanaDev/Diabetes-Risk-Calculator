@@ -9,12 +9,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
 app = Flask(__name__)
-
-# Enable dynamic CORS based on environment
-if os.environ.get('ENV') == 'production':
-    CORS(app, resources={r"/predict": {"origins": "https://your-frontend-url.vercel.app"}})
-else:
-    CORS(app)
+CORS(app)  # Enable CORS for all routes
 
 # Rate limiting: 10 requests per minute per IP
 limiter = Limiter(get_remote_address, app=app, default_limits=["10 per minute"])
